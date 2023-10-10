@@ -128,6 +128,7 @@ namespace Display
             case 'P': return digits[16];
             case '-': return digits[17];
             case '_': return digits[18];
+            case '#': return 0b10101010;
             default: return 0b11111111;
         }
     }
@@ -139,9 +140,13 @@ namespace Display
         uint8_t digit3 = MapDigit(dig3);
         uint8_t digit4 = MapDigit(dig4);
         if (digit1 != 0b11111111) digitsmemory[0] = digit1;
+        if (digit1 == 0b10101010) digitsmemory[0] = 255;
         if (digit2 != 0b11111111) digitsmemory[1] = digit2;
+        if (digit2 == 0b10101010) digitsmemory[1] = 255;
         if (digit3 != 0b11111111) digitsmemory[2] = digit3;
+        if (digit3 == 0b10101010) digitsmemory[2] = 255;
         if (digit4 != 0b11111111) digitsmemory[3] = digit4;
+        if (digit4 == 0b10101010) digitsmemory[3] = 255;
         /*
         switch (dig1)
         {
@@ -264,6 +269,8 @@ namespace Display
             default: break;
         }
         */
+        MaskDots();
+        ShiftOutDigitsMemory();
     }
 
     void SetDigits(const char* parray)
@@ -273,9 +280,13 @@ namespace Display
         uint8_t digit3 = MapDigit(parray[2]);
         uint8_t digit4 = MapDigit(parray[3]);
         if (digit1 != 0b11111111) digitsmemory[0] = digit1;
+        if (digit1 == 0b10101010) digitsmemory[0] = 255;
         if (digit2 != 0b11111111) digitsmemory[1] = digit2;
+        if (digit2 == 0b10101010) digitsmemory[1] = 255;
         if (digit3 != 0b11111111) digitsmemory[2] = digit3;
+        if (digit3 == 0b10101010) digitsmemory[2] = 255;
         if (digit4 != 0b11111111) digitsmemory[3] = digit4;
+        if (digit4 == 0b10101010) digitsmemory[3] = 255;
         /*
         for (int i = 0; i < 4; i++)
         {
@@ -311,6 +322,8 @@ namespace Display
             }
         }
         */
+        MaskDots();
+        ShiftOutDigitsMemory();
     }
 
     void WriteInt(const int value, const uint8_t index, const uint8_t maxlenght = 4)
