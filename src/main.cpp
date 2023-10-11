@@ -8,10 +8,17 @@ void setup()
   Serial.begin(115200);
   Display::Begin();
   Display::BlankMemory();
+  Interface::Begin();
 }
 int cnt = 0;
 void loop()
 {
+  Serial.print(String(Interface::GetEncButton()) + "\t");
+  Serial.print(String(Interface::GetFlipSwitch()) + "\t");
+  Serial.print(Interface::selectedbutton);
+  Serial.print("\t");
+  Serial.println(Interface::selectedswitch);
+  Interface::AnUpdate();
   int (*func)(int);
   String enc = String(Interface::Enc.read());
   int lnght = enc.length();
@@ -23,5 +30,5 @@ void loop()
     default: break;
   }
   Display::WriteInt(Interface::Enc.read(), 0);
-  delay(1);
+  delay(50);
 }
