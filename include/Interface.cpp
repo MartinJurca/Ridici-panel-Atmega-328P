@@ -85,13 +85,15 @@ namespace Interface
             }
         }
     }
-
+    /// @brief stisknuto = true
+    /// @return 
     bool GetEncButton()
     {
         if (digitalRead(encbuttonpin)) return false;
         else return true;
     }
-
+    /// @brief nahoře = true, dole = false
+    /// @return 
     bool GetFlipSwitch()
     {
         if (digitalRead(flipswitchpin)) return false;

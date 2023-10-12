@@ -5,6 +5,7 @@
 namespace Display
 {
     void MaskDots();
+    void BlankMemory();
     SPISettings AVR328P_SPIsettings(8000000, MSBFIRST, 3);
     //0123456789ABCDEFP-_
     const uint8_t digits[19] = {0b00000011, 0b10011111, 0b00100101, 0b00001101, 0b10011001, 0b01001001, 0b01000001, 0b00011111, 0b00000001, 0b00011001, 0b00010001, 0b11000001, 0b01100011, 0b10000101, 0b01100001, 0b01110001, 0b00110001, 0b11111101, 0b11101111};
@@ -17,6 +18,7 @@ namespace Display
         pinMode(10, OUTPUT);
         digitalWrite(10, LOW);
         SPI.begin();
+        BlankMemory();
     }
 
     void ShiftOut(const uint8_t data)
