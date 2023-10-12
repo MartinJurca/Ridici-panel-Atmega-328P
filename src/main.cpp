@@ -22,12 +22,13 @@
 #endif
 #include "TimerInterrupt.h"
 #pragma endregion
+#include "Communication.cpp"
 
 void _TimerInterruptISR();
 
 void setup()
 {
-  Serial.begin(115200);
+  Communication::Begin();
   Display::Begin();
   Interface::Begin();
   ITimer2.init();
@@ -57,4 +58,5 @@ void loop()
 void _TimerInterruptISR()
 {
   Interface::AnUpdate();
+  Communication::Update();
 }
