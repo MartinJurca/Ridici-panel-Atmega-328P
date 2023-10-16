@@ -5,7 +5,7 @@
 
 namespace CommonData
 {
-    bool pcoverride = false;
+    bool pcoverride = false; // true = zapnuto, false = vypnuto
     int artpoz[3] = {0, 0, 0};
 }
 

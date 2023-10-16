@@ -8,6 +8,7 @@ namespace Display
     void BlankMemory();
     SPISettings AVR328P_SPIsettings(8000000, MSBFIRST, 3);
     //0123456789ABCDEFP-_
+    // x = ignorovat, # = vyčistit
     const uint8_t digits[19] = {0b00000011, 0b10011111, 0b00100101, 0b00001101, 0b10011001, 0b01001001, 0b01000001, 0b00011111, 0b00000001, 0b00011001, 0b00010001, 0b11000001, 0b01100011, 0b10000101, 0b01100001, 0b01110001, 0b00110001, 0b11111101, 0b11101111};
     uint8_t digitsmemory[4] = {0, 0, 0, 0};
     bool dotsmemory[4] = {false, false, false, false};
@@ -89,9 +90,9 @@ namespace Display
     void SetDots(const bool dot1, const bool dot2, const bool dot3, const bool dot4)
     {
         dotsmemory[0] = dot1;
-        dotsmemory[0] = dot2;
-        dotsmemory[0] = dot3;
-        dotsmemory[0] = dot4;
+        dotsmemory[1] = dot2;
+        dotsmemory[2] = dot3;
+        dotsmemory[3] = dot4;
     }
 
     void SetDot(const bool state, const uint8_t index)

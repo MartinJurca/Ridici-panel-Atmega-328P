@@ -26,7 +26,6 @@ class CMD
   };
   void Update ()
   {
-    Serial.setTimeout(1);
     LinkedList<String> prijateprikazy = LinkedList<String>();
     for (uint8_t i = 0; (Serial.available() > 0) && (i <= 64); i++)
     {

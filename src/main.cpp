@@ -1,3 +1,9 @@
+//
+//#define TEST
+//#define DEBUG_ISR
+#define DEBUG_COMMUNICATION
+#define DEPLOY
+//
 #include <Arduino.h>
 #include "Display.cpp"
 #include "CommandHandler.cpp"
@@ -23,6 +29,7 @@
 #include "TimerInterrupt.h"
 #pragma endregion
 #include "Communication.cpp"
+#include "Pages.cpp"
 
 void _TimerInterruptISR();
 
@@ -37,6 +44,17 @@ void setup()
 int cnt = 0;
 void loop()
 {
+  #ifdef DEPLOY
+  switch (Interface::selectedswitch)
+  {
+    case 1: Pages::AxisMovement(); break;
+    case 2: Pages::AxisMovement(); break;
+    case 3: Pages::AxisMovement(); break;
+    case 4: Pages::Operate(); break;
+    default: Pages::Unselected(); break;
+  }
+  #endif
+  #ifdef TEST
   Serial.print(String(Interface::GetEncButton()) + "\t");
   Serial.print(String(Interface::GetFlipSwitch()) + "\t");
   Serial.print(Interface::selectedbutton);
@@ -53,10 +71,21 @@ void loop()
   }
   Display::WriteInt(Interface::Enc.read(), 0);
   delay(50);
+  #endif
 }
 
 void _TimerInterruptISR()
 {
   Interface::AnUpdate();
   Communication::Update();
+  #ifdef DEBUG_ISR
+  Serial.println("DEBUG: Timer ISR done. Results:");
+  Serial.println("selectedswitch: " + String(Interface::selectedswitch));
+  Serial.println("selectedbutton:" + String(Interface::selectedbutton));
+  Serial.println("flipswitch:" + String(Interface::GetFlipSwitch()));
+  Serial.println("EncButton: " + String(Interface::GetEncButton()));
+  //Serial.println("EncVal: " + String(Interface::Enc.read()));
+  Serial.println("time: " + String(millis()));
+  Serial.println("...");
+  #endif
 }
