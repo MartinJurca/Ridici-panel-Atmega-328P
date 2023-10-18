@@ -97,11 +97,20 @@ namespace Pages
 
     void _ShowFloat(int value, const double step_size)
     {
+        bool addup = false;
         // tečka
         Display::SetDots(false, false, false, true);
+        // blikání tečky při záporné hodnoty
+        if (value >= 0) {CommonData::blinkenabled = false; Display::SetDot(false, 0);}
+        else
+        {
+            if (CommonData::TmrBlink.Update()) CommonData::blinkstate = !CommonData::blinkstate;
+            Display::SetDot(CommonData::blinkstate, 0);
+        }
         // první část
         double frstvaldbl = step_size * double(value);
         int frstval = abs(int(frstvaldbl));
+        add: if (addup) frstval++;
         String showfrstval = String(frstval);
         switch (showfrstval.length())
         {
@@ -111,11 +120,15 @@ namespace Pages
             case 3: Display::SetDigits(showfrstval[0], showfrstval[1], showfrstval[2], 'x'); break;
             default: Display::SetDigits(showfrstval[0], showfrstval[1], showfrstval[2], 'x'); break;
         }
+        if (addup) return;
         // druhá část
         frstvaldbl -= double(int(step_size * double(value)));
+        frstvaldbl += 0.05;
+        if (frstvaldbl >= 1.0) {addup = true; frstvaldbl -= 1.0;}
         frstvaldbl *= 10.0;
         int scndval = abs(int(frstvaldbl));
         Display::WriteInt(scndval, 3, 1);
+        if (addup) goto add;
     }
 
     void Unselected()
